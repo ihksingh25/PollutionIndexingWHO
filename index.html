@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AQI Monitoring Index</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: linear-gradient(135deg, #2c3e50, #4a6491);
+            color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .dashboard {
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+        
+        .table-container {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        thead {
+            background-color: #2c3e50;
+            color: white;
+        }
+        
+        th {
+            padding: 16px 12px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 1rem;
+        }
+        
+        th:first-child {
+            width: 80px;
+        }
+        
+        th:nth-child(2) {
+            width: 200px;
+        }
+        
+        th:nth-child(3) {
+            width: 100px;
+        }
+        
+        th:nth-child(4) {
+            width: 120px;
+        }
+        
+        th:last-child {
+            width: 100px;
+        }
+        
+        tbody tr {
+            border-bottom: 1px solid #eaeaea;
+            transition: background-color 0.2s;
+        }
+        
+        tbody tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        td {
+            padding: 14px 12px;
+            font-size: 0.95rem;
+        }
+        
+        .rank {
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+        }
+        
+        .city {
+            font-weight: 500;
+        }
+        
+        .aqi {
+            font-weight: bold;
+            text-align: center;
+        }
+        
+        .status {
+            text-align: center;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+        
+        .hazardous {
+            background-color: #7e1e3b;
+            color: white;
+        }
+        
+        .severe {
+            background-color: #ff6b6b;
+            color: white;
+        }
+        
+        .follow-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .follow-btn:hover {
+            background-color: #2980b9;
+        }
+        
+        .stats-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eaeaea;
+        }
+        
+        .stat {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            color: #7f8c8d;
+            margin-top: 5px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #7f8c8d;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            th, td {
+                padding: 12px 8px;
+                font-size: 0.9rem;
+            }
+            
+            .stats-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>AQI Monitoring Dashboard</h1>
+            <p class="subtitle">Real-time Air Quality Index for Cities Worldwide</p>
+        </header>
+        
+        <div class="dashboard">
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>City</th>
+                            <th>AQI</th>
+                            <th>Status</th>
+                            <th>Follow</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="rank">1.</td>
+                            <td class="city">Atma Ram Sanatan Dharma College, Dhaula kuan ,India</td>
+                            <td class="aqi">1091</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">2.</td>
+                            <td class="city">Khalilabad, India</td>
+                            <td class="aqi">955</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">3.</td>
+                            <td class="city">Balloh, India</td>
+                            <td class="aqi">788</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">4.</td>
+                            <td class="city">Barnala, India</td>
+                            <td class="aqi">722</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">5.</td>
+                            <td class="city">Khairabad, India</td>
+                            <td class="aqi">617</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">6.</td>
+                            <td class="city">Faizabad, India</td>
+                            <td class="aqi">547</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">7.</td>
+                            <td class="city">Negli Bahrampur, India</td>
+                            <td class="aqi">537</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">8.</td>
+                            <td class="city">Gorshtipur, India</td>
+                            <td class="aqi">519</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">9.</td>
+                            <td class="city">Bathinda, India</td>
+                            <td class="aqi">501</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">10.</td>
+                            <td class="city">Nauttha, India</td>
+                            <td class="aqi">465</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">11.</td>
+                            <td class="city">Behbalpur, India</td>
+                            <td class="aqi">439</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">12.</td>
+                            <td class="city">Badrukhan, India</td>
+                            <td class="aqi">427</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">13.</td>
+                            <td class="city">Begampur, India</td>
+                            <td class="aqi">424</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">14.</td>
+                            <td class="city">Narkatiaganj, India</td>
+                            <td class="aqi">422</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">15.</td>
+                            <td class="city">Lumbini Sanskritik, Nepal</td>
+                            <td class="aqi">414</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">16.</td>
+                            <td class="city">Rohtak, India</td>
+                            <td class="aqi">344</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">17.</td>
+                            <td class="city">Malaut, India</td>
+                            <td class="aqi">339</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">18.</td>
+                            <td class="city">Faridabad, India</td>
+                            <td class="aqi">323</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">19.</td>
+                            <td class="city">Noida, India</td>
+                            <td class="aqi">317</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">20.</td>
+                            <td class="city">Khurja, India</td>
+                            <td class="aqi">310</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">21.</td>
+                            <td class="city">Ghazlabad, India</td>
+                            <td class="aqi">309</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">22.</td>
+                            <td class="city">Karnai, India</td>
+                            <td class="aqi">305</td>
+                            <td><span class="status hazardous">Hazardous</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">23.</td>
+                            <td class="city">Panipat, India</td>
+                            <td class="aqi">292</td>
+                            <td><span class="status severe">Severe</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                        <tr>
+                            <td class="rank">24.</td>
+                            <td class="city">Greater Noida, India</td>
+                            <td class="aqi">297</td>
+                            <td><span class="status severe">Severe</span></td>
+                            <td><button class="follow-btn">☺ Follow</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="stats-bar">
+                <div class="stat">
+                    <div class="stat-value">24</div>
+                    <div class="stat-label">Cities Monitored</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">23</div>
+                    <div class="stat-label">Hazardous</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1</div>
+                    <div class="stat-label">Severe</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value">1091</div>
+                    <div class="stat-label">Highest AQI</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Data updated: November 10, 2025 | Source: AQI Monitoring Network</p>
+        </footer>
+    </div>
+</body>
+</html>
